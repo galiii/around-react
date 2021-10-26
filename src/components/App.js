@@ -1,25 +1,47 @@
-import "./index.css";
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
+import "../index.css";
+import Header from "./Header";
+import Main from "./Main";
+import PopupWithForm from "./PopupWithForm";
+import Footer from "./Footer";
+//import Card from './Card';
 
 function App() {
+  const handleEditAvatarClick = () => {
+    console.log("hello");
+    /* for check
+    const updateImageModel = document.querySelector(
+      ".popup_type_update-image-profile"
+    );
+    console.log(updateImageModel);
+    //const popupElement = updateImageModel.querySelector(".form");
+    updateImageModel.classList.add("popup_open");
+    */
+    
+  };
+
+  const handleEditProfileClick = () => {
+    /*const editProfileModel = document.querySelector(
+      ".popup_type_edit-profile"
+    );
+    editProfileModel.classList.add("popup_open");*/
+  };
+
+  const handleAddPlaceClick = () => {
+    /*const addCardModel = document.querySelector(".popup_type_add-card");
+    addCardModel.classList.add("popup_open");*/
+  };
   return (
     <div className="page__container">
-     <Header />
-      <main className="content">
+      <Header />
 
-        {/* Profile */}
-        <Main />
-
-        {/* Cards__list  */}
-        <section className="cards">
-          <ul className="cards__list"></ul>
-        </section>
-      </main>
+      <Main
+        handleEditAvatarClick={handleEditAvatarClick}
+        handleEditProfileClick={handleEditProfileClick}
+        handleAddPlaceClick={handleAddPlaceClick}
+      />
 
       <Footer />
-    {/**  Edit Profile Popup */}
+      {/**  Edit Profile Popup */}
       <div className="popup popup_type_edit-profile">
         <div className="popup__container">
           <button
@@ -59,8 +81,8 @@ function App() {
           </form>
         </div>
       </div>
-     
-     {/* Update Profile image Popup */}
+
+      {/* Update Profile image Popup */}
       <div className="popup popup_type_update-image-profile">
         <div className="popup__container">
           <button
@@ -86,8 +108,8 @@ function App() {
           </form>
         </div>
       </div>
-     
-    {/* Add Card Popup */ }
+
+      {/* Add Card Popup */}
       <div className="popup popup_type_add-card">
         <div className="popup__container">
           <button
@@ -123,7 +145,7 @@ function App() {
           </form>
         </div>
       </div>
-      
+
       {/* Delete card */}
       <div className="popup popup_type_delete-card">
         <div className="popup__container">
@@ -140,7 +162,7 @@ function App() {
           </form>
         </div>
       </div>
-      
+
       {/** Image Popup*/}
       <div className="popup popup_type_image">
         <div className="popup__container popup__figure-container">
@@ -159,9 +181,6 @@ function App() {
           </figure>
         </div>
       </div>
-      
-
-
     </div>
   );
 }
