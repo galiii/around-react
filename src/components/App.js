@@ -1,4 +1,5 @@
 import "../index.css";
+import {api} from "../utils/api.js"
 import React from "react";
 import Header from "./Header";
 import Main from "./Main";
@@ -8,6 +9,7 @@ import Footer from "./Footer";
 //import Card from './Card';
 
 function App() {
+  //Popup
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -15,9 +17,7 @@ function App() {
     React.useState(false);
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
-
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
-
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
 
   const closeAllPopups = () => {
@@ -25,6 +25,28 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
   }
+
+const [userInfo, setUserInfo] = React.useState({
+  userName: "Jacques Cousteau",
+  userDescription: "Explorer",
+  userAvatar: "../images/profile.jpg"
+}); //Default  db
+
+
+React.useEffect(() => {
+  api.getUserInfo().then((userData) => {
+    setUserInfo({
+      userName: userData.name,
+      userDescription: userData.about,
+      userAvatar: userData.avatar
+    });
+    console.log(userData);
+  })
+  .catch(console.error);
+  
+},[]);
+
+
 
   return (
     <div className="page__container">
@@ -34,6 +56,7 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddPlaceClick}
+        user ={userInfo}
       />
 
       <Footer />

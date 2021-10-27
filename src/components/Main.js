@@ -6,26 +6,27 @@ import cardsData from "../utils/cards.js";
 
 
 function Main(props) {
-  
+  console.log(props);
   return (
     <main className="content">
       {/* Profile */}
       <section className="profile">
         <div className="profile__image-container">
           <img
-            src={profileImage}
+            src={props.user.userAvatar}
             alt="A profile image"
             className="profile__image"
           />
+          
           <button
             className="profile__update-image"
             onClick={props.onEditAvatarClick}
           ></button>
         </div>
-
+        
         <div className="profile__section-information">
           <div className="profile__row-information">
-            <h1 className="profile__name">Jacques Cousteau</h1>
+            <h1 className="profile__name">{props.user.userName}</h1>
             <button
               type="button"
               aria-label="Edit"
@@ -33,7 +34,7 @@ function Main(props) {
               onClick={props.onEditProfileClick}
             ></button>
           </div>
-          <p className="profile__job">Explorer</p>
+          <p className="profile__job"> {props.user.userDescription}</p>
         </div>
         <button
           type="button"
