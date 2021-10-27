@@ -30,8 +30,7 @@ function ImagePopup(props) {
             {props.selectedCard.name}
           </figcaption>
         </figure>
-      </div>{" "}
-      {/**   popup__container */}
+      </div>
     </div>
   );
 }

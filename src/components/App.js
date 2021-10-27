@@ -1,14 +1,13 @@
 import "../index.css";
-import {api} from "../utils/api.js"
+import { api } from "../utils/api.js";
 import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
-import profileImage from "../images/profile.jpg";
-import initCards from "../utils/cards.js";
-//import Card from './Card';
+import photo from "../images/profile.jpg";
+//import initCards from "../utils/cards.js";
 
 function App() {
   //Popup
@@ -17,63 +16,54 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
- 
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState({
-    name: '',
-    link: ''
+    name: "",
+    link: "",
   });
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
 
-  
   const handleCardClick = (card) => {
     setSelectedCard({
-      name:card.name,
-      link: card.link
-    })
+      name: card.name,
+      link: card.link,
+    });
 
     setIsImagePopupOpen(true);
-  }
-  
-
+  };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-  }
+  };
 
-const [userInfo, setUserInfo] = React.useState({
-  userName: "Jacques Cousteau",
-  userDescription: "Explorer",
-  userAvatar: profileImage
-}); //Default  db
+  const [userInfo, setUserInfo] = React.useState({
+    userName: "Jacques Cousteau",
+    userDescription: "Explorer",
+    userAvatar: photo,
+  }); //Default  db
 
-const [cards, setCards] = React.useState([]); //Default  db
+  const [cards, setCards] = React.useState([]); //Default  db
 
-
-
-React.useEffect(() => {
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, cardData]) => {
-    
-    setUserInfo({
-      userName: userData.name,
-      userDescription: userData.about,
-      userAvatar: userData.avatar
-    });
-    setCards([...cardData]);
-   console.log(cardData);
-  })
-  .catch(console.error);
-}, []);
-
-
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardData]) => {
+        setUserInfo({
+          userName: userData.name,
+          userDescription: userData.about,
+          userAvatar: userData.avatar,
+        });
+        setCards([...cardData]);
+        console.log(cardData);
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="page__container">
@@ -83,9 +73,9 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
         onEditAvatarClick={handleEditAvatarClick}
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddPlaceClick}
-        user ={userInfo}
-        cardData = {cards}
-        onCardClick = {handleCardClick}
+        user={userInfo}
+        cardData={cards}
+        onCardClick={handleCardClick}
       />
 
       <Footer />
@@ -184,11 +174,11 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       />
 
       {/** Image Popup*/}
-      <ImagePopup 
-      onClose={closeAllPopups}
-      isOpen ={isImagePopupOpen}
-      name="image"
-      selectedCard= {selectedCard}
+      <ImagePopup
+        onClose={closeAllPopups}
+        isOpen={isImagePopupOpen}
+        name="image"
+        selectedCard={selectedCard}
       />
     </div>
   );
