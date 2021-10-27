@@ -19,7 +19,7 @@ function Main(props) {
           />
           <button
             className="profile__update-image"
-            onClick={props.handleEditAvatarClick}
+            onClick={props.onEditAvatarClick}
           ></button>
         </div>
 
@@ -30,7 +30,7 @@ function Main(props) {
               type="button"
               aria-label="Edit"
               className="profile__edit-button"
-              onClick={props.handleEditProfileClick}
+              onClick={props.onEditProfileClick}
             ></button>
           </div>
           <p className="profile__job">Explorer</p>
@@ -39,7 +39,7 @@ function Main(props) {
           type="button"
           aria-label="Add"
           className="profile__add-button"
-          onClick={props.handleAddPlaceClick}
+          onClick={props.onAddPlaceClick}
         ></button>
       </section>
 
