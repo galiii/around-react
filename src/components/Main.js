@@ -1,12 +1,9 @@
 import React from "react";
 import Card from './Card';
-import profileImage from "../images/profile.jpg";
-import cardsData from "../utils/cards.js";
-
 
 
 function Main(props) {
-  console.log(props);
+  console.log(props.cardData);
   return (
     <main className="content">
       {/* Profile */}
@@ -47,11 +44,9 @@ function Main(props) {
       {/* Cards__list  */}
       <section className="cards">
         <ul className="cards__list">
-       
-          {/**_id = string , name = string, link = url, likes = array */}
           {
-            cardsData.map((card, index) => 
-            <li className="card"  key={index} ><Card {...card} /></li>
+            props.cardData.map((card, index) => 
+            <li className="card"  key={card._id} ><Card key={card._id} card={card} onCardClick = {props.onCardClick} /></li>
             )
           }
           

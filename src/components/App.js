@@ -6,6 +6,8 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
+import profileImage from "../images/profile.jpg";
+import initCards from "../utils/cards.js";
 //import Card from './Card';
 
 function App() {
@@ -15,36 +17,61 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
+ 
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: '',
+    link: ''
+  });
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
 
+  
+  const handleCardClick = (card) => {
+    setSelectedCard({
+      name:card.name,
+      link: card.link
+    })
+
+    setIsImagePopupOpen(true);
+  }
+  
+
+
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsImagePopupOpen(false);
   }
 
 const [userInfo, setUserInfo] = React.useState({
   userName: "Jacques Cousteau",
   userDescription: "Explorer",
-  userAvatar: "../images/profile.jpg"
+  userAvatar: profileImage
 }); //Default  db
+
+const [cards, setCards] = React.useState([]); //Default  db
+
 
 
 React.useEffect(() => {
-  api.getUserInfo().then((userData) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cardData]) => {
+    
     setUserInfo({
       userName: userData.name,
       userDescription: userData.about,
       userAvatar: userData.avatar
     });
-    console.log(userData);
+    setCards([...cardData]);
+   console.log(cardData);
   })
   .catch(console.error);
-  
-},[]);
+}, []);
 
 
 
@@ -57,6 +84,8 @@ React.useEffect(() => {
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddPlaceClick}
         user ={userInfo}
+        cardData = {cards}
+        onCardClick = {handleCardClick}
       />
 
       <Footer />
@@ -155,7 +184,12 @@ React.useEffect(() => {
       />
 
       {/** Image Popup*/}
-      <ImagePopup />
+      <ImagePopup 
+      onClose={closeAllPopups}
+      isOpen ={isImagePopupOpen}
+      name="image"
+      selectedCard= {selectedCard}
+      />
     </div>
   );
 }
