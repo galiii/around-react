@@ -49,7 +49,7 @@ function App() {
     userAvatar: photo,
   }); //Default  db
 
-  const [cards, setCards] = React.useState([]); //Default  db
+  const [cards, setCards] = React.useState([]); 
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -80,7 +80,7 @@ function App() {
 
       <Footer />
 
-      {/**  Edit Profile Popup */}
+     
       <PopupWithForm
         name="edit-profile"
         title="Edit Profile"
@@ -114,11 +114,11 @@ function App() {
         <span id="job-input-error"></span>
       </PopupWithForm>
 
-      {/* Update Profile image Popup */}
+     
       <PopupWithForm
         name="update-image-profile"
         title="Change profile picture"
-        formName="profile-img" //profile
+        formName="profile-img" 
         buttonSubmitTitle="Save"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
@@ -134,7 +134,7 @@ function App() {
         <span id="avatar-input-error"></span>
       </PopupWithForm>
 
-      {/* Add Card Popup */}
+     
       <PopupWithForm
         name="add-card"
         title="New Place"
@@ -165,20 +165,20 @@ function App() {
         <span id="card-link-input-error"></span>
       </PopupWithForm>
 
-      {/* Delete card */}
+      
       <PopupWithForm
         name="delete-card"
         title="Are you sure ?"
-        formName="delete" //profile
+        formName="delete" 
         buttonSubmitTitle="Yes"
       />
 
       {/** Image Popup*/}
       <ImagePopup
-        onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
         name="image"
         selectedCard={selectedCard}
+        onClose={closeAllPopups}
       />
     </div>
   );

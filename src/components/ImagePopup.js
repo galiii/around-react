@@ -20,14 +20,14 @@ function ImagePopup(props) {
         <figure className="popup__figure">
           <img
             alt="default"
-            src={props.selectedCard.link}
+            src={props.selectedCard["link"]}
             className="popup__image"
           />
           <figcaption
             className="popup__caption"
-            aria-label={props.selectedCard.name}
+            aria-label={props.selectedCard["name"]}
           >
-            {props.selectedCard.name}
+            {props.selectedCard["name"]}
           </figcaption>
         </figure>
       </div>
