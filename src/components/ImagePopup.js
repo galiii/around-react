@@ -1,7 +1,7 @@
 import React from "react";
 
 function ImagePopup(props) {
-  console.log("image", props);
+  //console.log("image", props);
   return (
     <div
       className={

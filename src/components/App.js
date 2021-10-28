@@ -1,13 +1,13 @@
 import "../index.css";
-import { api } from "../utils/api.js";
+
 import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
-import photo from "../images/profile.jpg";
-//import initCards from "../utils/cards.js";
+
+
 
 function App() {
   //Popup
@@ -43,27 +43,11 @@ function App() {
     setIsImagePopupOpen(false);
   };
 
-  const [userInfo, setUserInfo] = React.useState({
-    userName: "Jacques Cousteau",
-    userDescription: "Explorer",
-    userAvatar: photo,
-  }); //Default  db
 
-  const [cards, setCards] = React.useState([]); 
 
-  React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, cardData]) => {
-        setUserInfo({
-          userName: userData.name,
-          userDescription: userData.about,
-          userAvatar: userData.avatar,
-        });
-        setCards([...cardData]);
-        console.log(cardData);
-      })
-      .catch(console.error);
-  }, []);
+  //const [cards, setCards] = React.useState([]); 
+
+
 
   return (
     <div className="page__container">
@@ -73,8 +57,8 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddPlaceClick}
-        user={userInfo}
-        cardData={cards}
+        /*user={userInfo}
+        cardData={cards}*/
         onCardClick={handleCardClick}
       />
 

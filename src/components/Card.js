@@ -8,7 +8,7 @@ function Card({ card, onCardClick }) {
   };
 
   return (
-    <div>
+    <li className="card">
       <img
         src={card.link}
         alt={card.name}
@@ -31,7 +31,7 @@ function Card({ card, onCardClick }) {
           <span className="card__likes-count">{card["likes"].length}</span>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 

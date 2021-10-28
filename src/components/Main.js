@@ -1,16 +1,42 @@
 import React from "react";
+import photo from "../images/profile.jpg";
+import { api } from "../utils/api.js";
 import Card from "./Card";
 
 function Main(props) {
-  //console.log(props.cardData);
+  console.log("main data",props);
+
+  const [cards, setCards] = React.useState([]); 
+
+  const [userInfo, setUserInfo] = React.useState({
+    userName: "Jacques Cousteau",
+    userDescription: "Explorer",
+    userAvatar: photo,
+  }); //Default  db
+
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardData]) => {
+        setUserInfo({
+          userName: userData.name,
+          userDescription: userData.about,
+          userAvatar: userData.avatar,
+        });
+        setCards([...cardData]);
+        //console.log(cardData);
+      })
+      .catch(console.error);
+  }, []);
+
+
   return (
     <main className="content">
       {/* Profile */}
       <section className="profile">
         <div className="profile__image-container">
           <img
-            src={props.user.userAvatar}
-            alt={props.user.userName}
+            src={userInfo["userAvatar"]}
+            alt={userInfo["userName"]}
             className="profile__image"
           />
 
@@ -22,7 +48,7 @@ function Main(props) {
 
         <div className="profile__section-information">
           <div className="profile__row-information">
-            <h1 className="profile__name">{props.user.userName}</h1>
+            <h1 className="profile__name">{userInfo["userName"]}</h1>
             <button
               type="button"
               aria-label="Edit"
@@ -30,7 +56,7 @@ function Main(props) {
               onClick={props.onEditProfileClick}
             ></button>
           </div>
-          <p className="profile__job"> {props.user.userDescription}</p>
+          <p className="profile__job"> {userInfo["userDescription"]}</p>
         </div>
         <button
           type="button"
@@ -43,14 +69,12 @@ function Main(props) {
       {/* Cards__list  */}
       <section className="cards">
         <ul className="cards__list">
-          {props.cardData.map((card, index) => (
-            <li className="card" key={card._id}>
+          {cards.map((card) => (
               <Card
                 key={card._id}
                 card={card}
                 onCardClick={props.onCardClick}
               />
-            </li>
           ))}
         </ul>
       </section>
