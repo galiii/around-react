@@ -4,6 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup"; //pro 11 3.1 - Refactoring: Create the  component
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -74,20 +75,41 @@ function App() {
   };
 
   const handleUpdateUser = (user) => {
-    console.log("hello", user); //name about
-    api.editProfileUserInfo(user)
-    .then((res) => {
-      setCurrentUser({
-       ...res
-      });
-      console.log("EDIT APP", res);
-      setIsEditProfilePopupOpen(false);
-    })
-    .catch(console.error)
-    .finally(() => console.log("finally")
-      //renderLoading(false, editProfileModel, buttonsSettings.edit)
-    );
-  }
+    //console.log("hello", user); //name about
+    api
+      .editProfileUserInfo(user)
+      .then((res) => {
+        setCurrentUser({
+          ...res,
+        });
+        //console.log("EDIT APP", res);
+        setIsEditProfilePopupOpen(false);
+      })
+      .catch(console.error)
+      .finally(
+        () => console.log("finally")
+        //renderLoading(false, editProfileModel, buttonsSettings.edit)
+      );
+  };
+
+  const handleUpdateAvatar = (link) => {
+    console.log("hello", link); //name about
+    api
+      .updateUserImage(link)
+      .then((res) => {
+        setCurrentUser({
+          ...res,
+        });
+        console.log("AVATAR APP", res);
+        setIsEditAvatarPopupOpen(false);
+      })
+      .catch(console.error)
+      .finally(
+        () => console.log("finally")
+        //renderLoading(false, editProfileModel, buttonsSettings.edit)
+      );
+  };
+
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
@@ -115,63 +137,17 @@ function App() {
 
         <Footer />
 
-        <PopupWithForm
-          name="edit-profile"
-          title="Edit Profile"
-          formName="profile"
-          buttonSubmitTitle="Save"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input
-            type="text"
-            name="name"
-            id="name-input"
-            className="form__input form__input_type_name"
-            placeholder="name"
-            required
-            minLength="2"
-            maxLength="40"
-          />
-          <span id="name-input-error"></span>
-
-          <input
-            type="text"
-            name="job"
-            id="job-input"
-            className="form__input form__input_type_job"
-            placeholder="job"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span id="job-input-error"></span>
-        </PopupWithForm>
-
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
-          name="update-image-profile"
-          title="Change profile picture"
-          formName="profile-img"
-          buttonSubmitTitle="Save"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            type="url"
-            name="avatar"
-            id="avatar-input"
-            className="form__input form__input_type_avatar"
-            placeholder="avatar"
-            required
-          />
-          <span id="avatar-input-error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <PopupWithForm
           name="add-card"

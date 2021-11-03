@@ -3,15 +3,16 @@ import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
-  console.log("PROPS edit", props);
+  //console.log("PROPS edit", props);
   const currentUser = React.useContext(CurrentUserContext); // Subscription to the context
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [errorMessage,setErrorMessage] = React.useState("");
 
   // After loading the current user from the API
   // their data will be used in managed components.
   React.useEffect(() => {
-   // console.log("current user", currentUser);
+    // console.log("current user", currentUser);
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser]);
@@ -19,18 +20,15 @@ function EditProfilePopup(props) {
   const handleChangeName = (e) => setName(e.target.value);
   const handleChangeDescription = (e) => setDescription(e.target.value);
 
-  
-
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the browser from navigating to the form address
 
+    //console.log("e",e.error);
     // Pass the values of the managed components to the external handler
     props.onUpdateUser({
       name,
       about: description,
     });
-
-
   };
 
   return (
@@ -53,7 +51,7 @@ function EditProfilePopup(props) {
           required
           minLength="2"
           maxLength="40"
-          value={name || ""} //It's give me Error on the console if it's Undefined 
+          value={name || ""} //It's give me Error on the console if it's Undefined
           onChange={handleChangeName}
         />
         <span id="name-input-error"></span>
@@ -67,7 +65,7 @@ function EditProfilePopup(props) {
           required
           minLength="2"
           maxLength="200"
-          value={description || ""} //It's give me Error on the console if it's Undefined 
+          value={description || ""} //It's give me Error on the console if it's Undefined
           onChange={handleChangeDescription}
         />
         <span id="job-input-error"></span>
