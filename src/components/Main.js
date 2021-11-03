@@ -2,7 +2,7 @@ import React from "react";
 import photo from "../images/profile.jpg";
 import { api } from "../utils/api.js";
 import Card from "./Card";
-import {CurrentUserContext} from '../contexts/CurrentUserContext'; 
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
   console.log(props);
@@ -10,7 +10,6 @@ function Main(props) {
   //name about avatar _id cohort
   const currentUser = React.useContext(CurrentUserContext); //pro 11 1.3
   //console.log("user in main", currentUser);
-
 
   return (
     <main className="content">
@@ -53,11 +52,13 @@ function Main(props) {
       <section className="cards">
         <ul className="cards__list">
           {props.cards.map((card) => (
-              <Card
-                key={card._id}
-                card={card}
-                onCardClick={props.onCardClick}
-              />
+            <Card
+              key={card._id}
+              card={card}
+              onCardClick={props.onCardClick}
+              onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete}
+            />
           ))}
         </ul>
       </section>

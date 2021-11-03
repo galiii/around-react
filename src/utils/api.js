@@ -1,4 +1,4 @@
-import {customFetch} from "./utils.js"
+import { customFetch } from "./utils.js";
 
 class Api {
   constructor({ baseUrl, headers }) {
@@ -21,8 +21,6 @@ class Api {
     });
   };
 
-
-
   // Adding a New Card
   addCard = (data) => {
     return customFetch(`${this._baseUrl}/cards`, {
@@ -37,7 +35,7 @@ class Api {
 
   // Deleting a Card
   deleteCard = (cardId) => {
-    console.log("api",cardId)
+    console.log("api", cardId);
     return customFetch(`${this._baseUrl}/cards/${cardId}`, {
       headers: this._headers,
       method: "DELETE",
@@ -48,7 +46,7 @@ class Api {
   likeCard = (cardId) => {
     return customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       headers: this._headers,
-      method: "PUT"
+      method: "PUT",
     });
   };
 
@@ -56,7 +54,14 @@ class Api {
   dislikeCard = (cardId) => {
     return customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       headers: this._headers,
-      method: "DELETE"
+      method: "DELETE",
+    });
+  };
+
+  changeLikeCardStatus = (cardId, isLiked) => {
+    return customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      headers: this._headers,
+      method: `${isLiked ? "PUT" : "DELETE"}`,
     });
   };
 
@@ -68,7 +73,7 @@ class Api {
       body: JSON.stringify({
         name,
         about: job,
-      })
+      }),
     });
   };
 
