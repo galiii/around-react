@@ -16,24 +16,19 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   // Check if the card was liked by the current user
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
-  //console.log("like", isLiked);
-
+  
   // Create a variable which you then set in `className` for the like button
   const cardLikeButtonClassName = `card__like ${
     isLiked ? "card__like_active" : ""
   }`;
 
-  const handleClick = () => {
-    onCardClick(card);
-  };
-
-  const handleCardLike = () => {
-    onCardLike(card);
-  };
-
-  const handleCardDelete = () => {
-    onCardDelete(card);
-  };
+  const handleClick = () => onCardClick(card);
+  
+  const handleCardLike = () => onCardLike(card);
+  
+  //pro 11 2.2 - add support delete card
+  const handleCardDelete = () => onCardDelete(card);
+  
 
   return (
     <li className="card">

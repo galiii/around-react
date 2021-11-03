@@ -1,9 +1,9 @@
-import "../index.css";
-
 import React from "react";
+import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup"; //pro 11 3.1 - Refactoring: Create the  component
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -32,8 +32,6 @@ function App() {
       .then(([userData, cardData]) => {
         setCurrentUser({ ...userData });
         setCards([...cardData]);
-        //console.log(userData);
-        //console.log("card ",cardData);
       })
       .catch(console.error);
   }, []);
@@ -47,15 +45,13 @@ function App() {
       name: card.name,
       link: card.link,
     });
-
     setIsImagePopupOpen(true);
   };
 
+  //pro 11 2.2 - add support like and dislike support card
   const handleCardLike = (card) => {
-    // Check one more time if this card was already liked
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    // Send a request to the API and getting the updated card data
-    api
+    const isLiked = card.likes.some((i) => i._id === currentUser._id); //Check one more time if this card was already liked
+    api //Send a request to the API and getting the updated card data
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
@@ -65,19 +61,33 @@ function App() {
       .catch(console.error);
   };
 
+  //pro 11 2.2 - add support delete card
   const handleCardDelete = (card) => {
     api
       .deleteCard(card._id)
       .then((res) => {
         setCards(
-          (state) => state.filter((c) => c._id !== card._id) //create array of cards that aren't delete
+          (state) => state.filter((c) => c._id !== card._id) //Create array of cards that aren't delete
         );
-        //remove it from dom
-        //card.removeCard();
-        //deleteCardPopup.close();
       })
       .catch(console.error);
   };
+
+  const handleUpdateUser = (user) => {
+    console.log("hello", user); //name about
+    api.editProfileUserInfo(user)
+    .then((res) => {
+      setCurrentUser({
+       ...res
+      });
+      console.log("EDIT APP", res);
+      setIsEditProfilePopupOpen(false);
+    })
+    .catch(console.error)
+    .finally(() => console.log("finally")
+      //renderLoading(false, editProfileModel, buttonsSettings.edit)
+    );
+  }
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
@@ -137,6 +147,12 @@ function App() {
           />
           <span id="job-input-error"></span>
         </PopupWithForm>
+
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name="update-image-profile"

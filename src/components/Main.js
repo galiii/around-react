@@ -1,15 +1,18 @@
 import React from "react";
-import photo from "../images/profile.jpg";
-import { api } from "../utils/api.js";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main(props) {
-  console.log(props);
-
+function Main({
+  cards,
+  onEditAvatarClick,
+  onEditProfileClick,
+  onAddPlaceClick,
+  onCardClick,
+  onCardLike, //pro 11 2.2 - add support like and dislike support card
+  onCardDelete, //pro 11 2.2 - add support delete card
+}) {
   //name about avatar _id cohort
   const currentUser = React.useContext(CurrentUserContext); //pro 11 1.3
-  //console.log("user in main", currentUser);
 
   return (
     <main className="content">
@@ -24,7 +27,7 @@ function Main(props) {
 
           <button
             className="profile__update-image"
-            onClick={props.onEditAvatarClick}
+            onClick={onEditAvatarClick}
           ></button>
         </div>
 
@@ -35,7 +38,7 @@ function Main(props) {
               type="button"
               aria-label="Edit"
               className="profile__edit-button"
-              onClick={props.onEditProfileClick}
+              onClick={onEditProfileClick}
             ></button>
           </div>
           <p className="profile__job"> {currentUser["about"]}</p>
@@ -44,20 +47,20 @@ function Main(props) {
           type="button"
           aria-label="Add"
           className="profile__add-button"
-          onClick={props.onAddPlaceClick}
+          onClick={onAddPlaceClick}
         ></button>
       </section>
 
       {/* Cards__list  */}
       <section className="cards">
         <ul className="cards__list">
-          {props.cards.map((card) => (
+          {cards.map((card) => (
             <Card
-              key={card._id}
+              key={card["_id"]}
               card={card}
-              onCardClick={props.onCardClick}
-              onCardLike={props.onCardLike}
-              onCardDelete={props.onCardDelete}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>

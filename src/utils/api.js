@@ -66,13 +66,13 @@ class Api {
   };
 
   // Editing the Profile
-  editProfileUserInfo = ({ name, job }) => {
+  editProfileUserInfo = ({ name, about }) => {
     return customFetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
       method: "PATCH",
       body: JSON.stringify({
         name,
-        about: job,
+        about,
       }),
     });
   };
