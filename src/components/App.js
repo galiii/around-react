@@ -6,6 +6,9 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
+import {CurrentUserContext} from '../contexts/CurrentUserContext'; 
+
+import { api } from "../utils/api.js";
 
 
 
@@ -22,6 +25,27 @@ function App() {
     name: "",
     link: "",
   });
+
+  const [currentUser, setCurrentUser] = React.useState({}); //Default db - project 11 1.1
+  const [cards, setCards] = React.useState([]); 
+
+
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardData]) => {
+        setCurrentUser({...userData});
+        setCards([...cardData]);
+        //console.log(userData);
+        //console.log("card ",cardData);
+        
+      })
+      .catch(console.error);
+  }, []);
+
+  //console.log("user",currentUser);
+  
+
+
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
@@ -44,21 +68,19 @@ function App() {
   };
 
 
-
-  //const [cards, setCards] = React.useState([]); 
-
-
-
   return (
     <div className="page__container">
+       {/* embedding data from the currentUser using the  context provider - project 11 1.2 */}
+       <CurrentUserContext.Provider value={currentUser}>
+        
       <Header />
 
       <Main
         onEditAvatarClick={handleEditAvatarClick}
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddPlaceClick}
-        /*user={userInfo}
-        cardData={cards}*/
+        /*user={userInfo}*/
+        cards={cards}
         onCardClick={handleCardClick}
       />
 
@@ -164,6 +186,7 @@ function App() {
         selectedCard={selectedCard}
         onClose={closeAllPopups}
       />
+      </CurrentUserContext.Provider>
     </div>
   );
 }
