@@ -5,6 +5,7 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup"; //pro 11 3.1 - Refactoring: Create the  component
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -19,6 +20,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
@@ -40,6 +42,7 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
+  const handleDeleteCard = () => setIsDeleteCardPopupOpen(true);
 
   const handleCardClick = (card) => {
     setSelectedCard({
@@ -70,19 +73,18 @@ function App() {
         setCards(
           (state) => state.filter((c) => c._id !== card._id) //Create array of cards that aren't delete
         );
+        //setIsDeleteCardPopupOpen(false);
       })
       .catch(console.error);
   };
 
   const handleUpdateUser = (user) => {
-    //console.log("hello", user); //name about
     api
       .editProfileUserInfo(user)
       .then((res) => {
         setCurrentUser({
           ...res,
         });
-        //console.log("EDIT APP", res);
         setIsEditProfilePopupOpen(false);
       })
       .catch(console.error)
@@ -93,7 +95,6 @@ function App() {
   };
 
   const handleUpdateAvatar = (link) => {
-    console.log("hello", link); //name about
     api
       .updateUserImage(link)
       .then((res) => {
@@ -110,12 +111,35 @@ function App() {
       );
   };
 
+  const handleAddPlaceSubmit = (data) => {
+    console.log("new",data);
+    api
+      .addCard(data)
+      .then((res) => {
+        const newCard = {
+          name: data["name"],
+          link: data["link"],
+          _id: res._id, //_id i have some problem if i don't _id
+          owner: res.owner,
+          likes: res.likes,
+        };
+        setCards([newCard, ...cards]); 
+        setIsAddPlacePopupOpen(false);
+      })
+      .catch(console.error)
+      .finally(() => console.log("finally")
+        //renderLoading(false, addCardModel, buttonsSettings.create)
+      );
+  }
+
+  
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
+    
   };
 
   return (
@@ -149,41 +173,20 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
 
-        <PopupWithForm
-          name="add-card"
-          title="New Place"
-          formName="new"
-          buttonSubmitTitle="Create"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            type="text"
-            name="card-title"
-            id="card-title-input"
-            className="form__input form__input_type_card-title"
-            placeholder="Title"
-            required
-            minLength="1"
-            maxLength="30"
-          />
-          <span id="card-title-input-error"></span>
-          <input
-            type="url"
-            name="card-link"
-            id="card-link-input"
-            className="form__input form__input_type_card-link"
-            placeholder="Image link"
-            required
-          />
-          <span id="card-link-input-error"></span>
-        </PopupWithForm>
-
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+        />
+         
         <PopupWithForm
           name="delete-card"
           title="Are you sure ?"
           formName="delete"
           buttonSubmitTitle="Yes"
+          //isOpen={isDeleteCardPopupOpen}
+          onClose={closeAllPopups}
+          //onSubmit={handleDeleteCard}
         />
 
         {/** Image Popup*/}
