@@ -2,11 +2,11 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext); //pro 11 1.4
+  const currentUser = React.useContext(CurrentUserContext);
 
   //likes [] _id name link owner: { name about avatar _id cohort }
-  // console.log("card in card", card);
-  //for delete button
+
+  //For delete button
   const isOwn = card.owner._id === currentUser._id; //Checking if the current user is the owner of the current card
 
   // Creating a variable which you'll then set in `className` for the delete button
@@ -16,19 +16,15 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   // Check if the card was liked by the current user
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
-  
+
   // Create a variable which you then set in `className` for the like button
   const cardLikeButtonClassName = `card__like ${
     isLiked ? "card__like_active" : ""
   }`;
 
   const handleClick = () => onCardClick(card);
-  
   const handleCardLike = () => onCardLike(card);
-  
-  //pro 11 2.2 - add support delete card
   const handleCardDelete = () => onCardDelete(card);
-  
 
   return (
     <li className="card">
@@ -41,9 +37,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
       <button
         type="button"
         aria-label="Delete"
-        className={`card__delete ${
-          isOwn ? "card__delete_visible" : "card__delete_hidden"
-        }`}
+        className={cardDeleteButtonClassName}
         onClick={handleCardDelete}
       ></button>
       <div className="card__row">

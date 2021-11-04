@@ -3,7 +3,7 @@ import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
-import EditProfilePopup from "./EditProfilePopup"; //pro 11 3.1 - Refactoring: Create the  component
+import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
@@ -20,16 +20,17 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
+  //const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
   });
 
-  const [currentUser, setCurrentUser] = React.useState({}); //Default db - project 11 1.1
+  const [currentUser, setCurrentUser] = React.useState({}); 
   const [cards, setCards] = React.useState([]);
 
+  /* Get User Information && Card List from the api */
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardData]) => {
@@ -39,10 +40,11 @@ function App() {
       .catch(console.error);
   }, []);
 
+  /* Click handlers */
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
-  const handleDeleteCard = () => setIsDeleteCardPopupOpen(true);
+  //const handleDeleteCard = () => setIsDeleteCardPopupOpen(true);
 
   const handleCardClick = (card) => {
     setSelectedCard({
@@ -52,7 +54,7 @@ function App() {
     setIsImagePopupOpen(true);
   };
 
-  //pro 11 2.2 - add support like and dislike support card
+  /* Like && DisLike Card handler */
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id); //Check one more time if this card was already liked
     api //Send a request to the API and getting the updated card data
@@ -65,7 +67,7 @@ function App() {
       .catch(console.error);
   };
 
-  //pro 11 2.2 - add support delete card
+  /* Delete Card handler */
   const handleCardDelete = (card) => {
     api
       .deleteCard(card._id)
@@ -78,6 +80,7 @@ function App() {
       .catch(console.error);
   };
 
+  /* Edit profile User handler */
   const handleUpdateUser = (user) => {
     api
       .editProfileUserInfo(user)
@@ -101,7 +104,7 @@ function App() {
         setCurrentUser({
           ...res,
         });
-        console.log("AVATAR APP", res);
+        //console.log("AVATAR APP", res);
         setIsEditAvatarPopupOpen(false);
       })
       .catch(console.error)
@@ -111,8 +114,9 @@ function App() {
       );
   };
 
+  /* Add new Card handler */
   const handleAddPlaceSubmit = (data) => {
-    console.log("new",data);
+    //console.log("new", data);
     api
       .addCard(data)
       .then((res) => {
@@ -123,23 +127,21 @@ function App() {
           owner: res.owner,
           likes: res.likes,
         };
-        setCards([newCard, ...cards]); 
+        setCards([newCard, ...cards]);
         setIsAddPlacePopupOpen(false);
       })
       .catch(console.error)
-      .finally(() => console.log("finally")
+      .finally(
+        () => console.log("finally")
         //renderLoading(false, addCardModel, buttonsSettings.create)
       );
-  }
-
-  
+  };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    
   };
 
   return (
@@ -147,18 +149,15 @@ function App() {
       {/* embedding data from the currentUser using the  context provider - project 11 1.2 */}
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-
         <Main
           onEditAvatarClick={handleEditAvatarClick}
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
-          /*user={userInfo}*/
           cards={cards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
-
         <Footer />
 
         <EditProfilePopup
@@ -178,7 +177,7 @@ function App() {
           onClose={closeAllPopups}
           onAddPlaceSubmit={handleAddPlaceSubmit}
         />
-         
+
         <PopupWithForm
           name="delete-card"
           title="Are you sure ?"

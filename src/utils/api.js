@@ -22,8 +22,7 @@ class Api {
   };
 
   // Adding a New Card
-  addCard = ({name,link}) => {
-    //console.log("ddd",data);
+  addCard = ({ name, link }) => {
     return customFetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
       method: "POST",
@@ -31,7 +30,7 @@ class Api {
         /*name: data["card-title"],
         link: data["card-link"],*/
         name,
-        link
+        link,
       }),
     });
   };

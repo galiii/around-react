@@ -8,11 +8,10 @@ function Main({
   onEditProfileClick,
   onAddPlaceClick,
   onCardClick,
-  onCardLike, //pro 11 2.2 - add support like and dislike support card
-  onCardDelete, //pro 11 2.2 - add support delete card
+  onCardLike,
+  onCardDelete,
 }) {
-  //name about avatar _id cohort
-  const currentUser = React.useContext(CurrentUserContext); //pro 11 1.3
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
