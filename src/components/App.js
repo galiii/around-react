@@ -10,7 +10,7 @@ import ImagePopup from "./ImagePopup";
 import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-import { api } from "../utils/api.js";
+import api  from "../utils/api.js";
 
 function App() {
   //Popup
