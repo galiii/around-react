@@ -12,8 +12,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
     setLink("");
   }, [isOpen]); //When isOpen reset name and link
 
-  const handleAddName = (e) => setName(e["target"]["value"]);
-  const handleAddLink = (e) => setLink(e["target"]["value"]);
+  
+  const handleAddName = (e) => setName(e.target.value);
+  const handleAddLink = (e) => setLink(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault(); //Prevent the browser from navigating to the form address

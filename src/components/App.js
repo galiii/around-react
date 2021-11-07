@@ -120,14 +120,9 @@ function App() {
     api
       .addCard(data)
       .then((res) => {
-        const newCard = {
-          name: data["name"],
-          link: data["link"],
-          _id: res._id, //_id i have some problem if i don't _id
-          owner: res.owner,
-          likes: res.likes,
-        };
-        setCards([newCard, ...cards]);
+        //likes [] , _id, name, link, owner
+        console.log("add res",res);
+        setCards([res, ...cards]);
         setIsAddPlacePopupOpen(false);
       })
       .catch(console.error)
@@ -146,7 +141,7 @@ function App() {
 
   return (
     <div className="page__container">
-      {/* embedding data from the currentUser using the  context provider - project 11 1.2 */}
+      {/* embedding data from the currentUser using the  context provider  */}
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Main

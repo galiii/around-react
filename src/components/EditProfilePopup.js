@@ -14,10 +14,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
-  const handleChangeName = (e) => setName(e["target"]["value"]);
-  const handleChangeDescription = (e) => setDescription(e["target"]["value"]);
+  const handleChangeName = (e) => setName(e.target.value);
+  const handleChangeDescription = (e) => setDescription(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault(); //Prevent the browser from navigating to the form address
